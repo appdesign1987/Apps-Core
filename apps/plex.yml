@@ -176,7 +176,7 @@
         customConnections: 'none'
       when: customConnections is undefined
 
-######################################### DEPLOY PLEX REMOTE (ANSWER 2)
+    ######################################### DEPLOY PLEX REMOTE (ANSWER 2)
     - name: Deploy Plex Container (Remote Edition)
       docker_container:
         name: plex
@@ -285,7 +285,8 @@
         force: yes
       when:
         - stat_result_openmovie.stat.exists == False    
-
+        ########EOF BUNDLE
+        #####Db edits 
     - name: "Install package for Plex-DB Cache size Fix"
       apt:
         name: "{{ packages }}"
@@ -294,7 +295,7 @@
       vars:
         packages:
         - sqlite3
-
+        
     - name: "Install package for Plex-DB Cache size Fix"
       apt:
         name: "{{ packages }}"
@@ -364,6 +365,7 @@
       - name: Display New Plex DB Cache Size
         debug:
           msg: "Plex DB cache size is now set to '{{ new_db_cache_size.stdout | int }}'."
+       #####EOF.DB.EDITS
 
       - name: Start Plex Container
         docker_container:
