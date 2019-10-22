@@ -22,6 +22,8 @@
     - name: 'Including cron job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
 
+    - name: 'Including Tasks'
+      include_tasks: '/opt/coreapps/apps/templates/tasks/dynamic.yml'
     # PRETASKS ####################################################################
     - name: Check JSON exists
       stat:
@@ -38,9 +40,6 @@
       ignore_errors: True
       when: jsonfile.stat.exists == False
 
-    - name: 'Including Tasks'
-      include_tasks: '/opt/coreapps/apps/templates/tasks/dynamic.yml'
-
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -48,7 +47,7 @@
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
           traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
+          traefik.frontend.rule: 'Host:{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
           traefik.frontend.headers.STSIncludeSubdomains: 'true'
